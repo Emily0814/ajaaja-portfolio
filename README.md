@@ -6,7 +6,7 @@
 - 프로젝트
 - 기술
 
-## 사용한 기술
+## [사용한 기술]
 - HTML
 - CSS
 - Vanila Javascript
