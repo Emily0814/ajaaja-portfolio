@@ -10,4 +10,3 @@
 - HTML
 - CSS
 - Vanila Javascript
-- 반응형 UI.
