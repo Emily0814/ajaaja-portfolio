@@ -5,13 +5,18 @@ body {
     background-color: white;
     overflow-x: hidden; /* 가로 스크롤 숨기기 */
   }
-  
- /* header-bar 스타일 추가 */
-.homepageLayout .main-container {
-    position: relative;
-    height: 100vh; /* 전체 화면 높이 */
+
+img {
+    max-width: 100%; /* 부모 요소의 너비를 넘지 않도록 설정 */
+    height: auto;    /* 비율 유지하면서 크기 조정 */
 }
 
+h1 {
+    margin: 0 auto;
+    font-size: 5rem;
+    color: white;
+}
+/* navbar 부분 */
 .header-bar {
     position: fixed;
     top: 0;
@@ -20,7 +25,7 @@ body {
     width: 100%; /* 너비를 100%로 설정 */
     text-align: center;
     z-index: 10; /* 다른 요소들 위에 오도록 설정 */
-    padding: 20px 0; /* 상하 여백 */
+    padding: 2vh 0; /* 화면 높이에 대해 5%만큼의 상하 여백을 가지며, 화면 크기 바뀌면 자동으로 비례해 조정  */
     background-color: rgba(0, 0, 0, 0.5); /* 배경색 반투명 처리 */
 }
 
@@ -32,90 +37,102 @@ body {
 
 .header-li {
     display: inline-block;
+}
+
+.header-li a {
     margin: 0 15px;
+    cursor: pointer;
+    text-decoration: none;
     color: white;
     font-size: 18px;
-    cursor: pointer;
 }
 
-.header-li:hover {
-    color: #ffdd57; /* 호버 시 색상 변경 */
+.header-li a:hover {
+    color: #ffdd57;
 }
 
 /* 타이핑 애니메이션 */
-/* 기본 스타일 */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    height: 100vh; /* 뷰포트의 전체 높이를 차지 */
+    width: 100%; /* 뷰포트의 전체 너비를 차지 */
+}
+
 .text-section {
+    text-align: center; /* 내부 텍스트 가운데 정렬 */
     position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    visibility: hidden;
-}
-
-.text-section.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.hello, .developer, .text {
-    display: block;
-    overflow: hidden;
-    white-space: pre-wrap;
-    width: 0;
-    margin: 0 auto;
-    font-size: 2rem;
-    color: white;
-}
-
-/* 타이핑 애니메이션 */
-@keyframes typing-hello {
-    from { width: 0; }
-    to { width: 10ch; }
-}
-
-@keyframes typing-developer {
-    from { width: 0; }
-    to { width: 20ch; }
-}
-
-@keyframes cursor-blink {
-    from, to { border-right-color: transparent; }
-    50% { border-right-color: white; }
-}
+} 
 
 .hello {
-    animation: typing-hello 1s steps(6) forwards, cursor-blink 1s step-end infinite;
+    border-right: 0.1em solid white;
+    overflow: hidden;
+    animation: 
+        typing-hello 1s steps(10) forwards,
+        cursor-blink 1s step-end infinite,    /* 커서 깜빡임 */
+        remove-cursor 0.1s forwards 1.4s; /* 애니메이션 완료 후 커서 제거 */
+    white-space: nowrap; /* 한 줄로 출력되도록 설정 */
+    display: inline-block;
 }
 
 .developer {
-    animation: typing-developer 1s steps(15) forwards, cursor-blink 1s step-end infinite;
-    animation-delay: 1.2s;
+    color: white;
+    font-size: 2rem;
+    margin: 0 auto;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+    border-right: 0.1em solid white; /* 커서 효과는 두 번째 문장에만 적용 */
+    animation: 
+        typing-developer 1s steps(15) forwards,
+        cursor-blink 1s step-end infinite;
+    animation-delay: 1.2s; /* 첫 번째 문장이 끝난 후 시작 */
+    white-space: nowrap; /* 한 줄로 출력되도록 설정 */
+    display: inline-block;
 }
 
-@keyframes typing-text {
-    from { width: 0; }
-    to { width: 100%; }
+@keyframes typing-hello {
+    from {
+        width: 0;
+    }
+    to {
+        width: 9ch; /* "안녕하세요!" 길이 */
+    }
 }
 
-.text {
-    font-size: 1.2rem;
-    animation: typing-text 2s steps(60) forwards, cursor-blink 1s step-end infinite;
-    animation-delay: 1.5s;
+@keyframes typing-developer {
+    from {
+        width: 0;
+        opacity: 1;
+    }
+    to {
+        width: 20ch; /* "신입 개발자 이혜미입니다." 길이 */
+        opacity: 1;
+    }
 }
 
+@keyframes cursor-blink {
+    from, to { 
+        border-right-color: transparent; 
+    }
+    50% { 
+        border-right-color: white; 
+    }
+}
 
-/* 전체 컨테이너가 이미지와 오버레이를 감쌀 수 있게 */
-.main-container {
-    position: relative;
+@keyframes remove-cursor {
+    to {
+        border-right-color: transparent;
+    }
 }
 
 /* 배경 이미지 스타일 */
 .main-image {
     width: 100%;
-    height: auto;
+    height: 100vh; /* 화면 높이에 맞추기 */
 }
 
 /* 반투명한 검정색 오버레이 */
@@ -126,69 +143,52 @@ body {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.9); /* 반투명 검정색 (opacity 0.5) */
-}
-
-.skillImageContainer {
-    text-align: center;
-    display: inline-block;
-    width: 114px;
-    height: 116px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin-right: 2rem;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 6px, rgba(0, 0, 0, 0.2) 0px 3px 6px;
-    border-radius: 30px;
+    height: 100vh; /* 화면 높이에 맞추기 */
 }
 
 /* About Me */
-h1 {
-    display: block;
-    font-size: 2.7em;
-    font-weight: bold;
-    unicode-bidi: isolate;
-    margin: 0.5em 0 0.5em 0;
-}
-
-.about {
+#about {
     display: flex;
-    justify-content: flex-start;
-    margin: 0;
     justify-content: center;
-    height: 100%;
-    width: 100%;
-    background-color: white;
+    align-items: center;  
+    padding: 100px 0;
 }
 
-.aboutTitle {
-    margin-left: 6vw;
+.about-title {
+    color: black;
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-right: 12vw;
-    width: 25vw;
-    box-sizing: border-box;
-    text-align: center;
-    align-self: center;
+    font-size: 3em;
 }
 
-.aboutContent {
-    margin: 4rem 0 4rem 0;
-    box-sizing: border-box;
-    padding: 1rem;
-    margin-right: 8vw;
-    width: 100%;
+.about-title h1 {
+    color: black;
 }
 
-/* skill */
-.skill {
-    height: 100%;
-    width: 100%;
+.about-content h2 {
+    color: black;
+    font-size: 1.5em;
+    width: 50vw;
+    margin: 0 0 10px 0;
+}
+
+/* skills */
+#skills {
+    width: 100%; /* 뷰포트의 전체 너비를 차지 */
     margin: 0 auto;
     text-align: center;
     padding-top: 2.5rem;
     padding-bottom: 5rem;
     background-color: #EDEDED;
+    box-sizing: border-box;
 }
 
-.skillHeading {
+.skill-heading {
     margin: 35px 0;
+    color: black;
 }
 
 h2 {
@@ -197,18 +197,48 @@ h2 {
     margin: 1em 0;
 }
 
-.skillImageContainer {
+/* 기술 아이콘 박스 */
+.skill-box {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    gap: 2rem; /* 아이콘 사이의 간격을 gap으로 설정 */
+}
+
+.skill-image-container {
     background-color: white;
+    text-align: center;
+    display: inline-block;
+    width: 114px;
+    height: 116px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 2rem;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 6px, rgba(0, 0, 0, 0.2) 0px 3px 6px;
+    border-radius: 30px;
+    margin-bottom: 2rem; /* 아래쪽 여백 추가 */
+}
+
+/* skill-box 안의 각 아이템에 반응형 스타일 추가 */
+@media (max-width: 768px) {
+    .skill-image-container {
+        width: 80px;
+        height: 80px;
+        margin-right: 1.5rem; /* 작은 화면에서는 여백을 줄여줌 */
+    }
 }
 
 /* project */
-.project {
+#project {
     background-color: #1F1F1F;
     color: white;
     text-align: center;
+    width: 100%; /* 뷰포트의 전체 너비를 차지 */
 }
 
-.projectTitle {
+.project-title {
     padding-top: 2.5rem;
     padding-bottom: 5rem;
 }
@@ -219,56 +249,30 @@ h2 {
     margin: 0 auto 30px;
 }
 
-.boxContainer {
+.box-container {
     display: flex;
     height: 100%;
     width: 100%;
 }
 
-.boxImage {
-    width: 100%;
-    
-}
-
-.boxInfo {
-    background-color: #fff;
-    padding: 14px;
-}
-
-.iconImage {
-    width: 30px;
-    height: 30px;
-}
-
-.boxUl {
-    list-style: none;
-}
-
-.github {
-    width: 3em;
-    height: 3em;
-}
-
+/* contact 영역 */
 .contact {
     display: flex;
     flex-direction: column;  /* 세로로 배치 */
     justify-content: center; /* 세로 중앙 정렬 */
     align-items: center;     /* 가로 중앙 정렬 */
-    height: 30vh;           /* 부모 요소가 화면 전체를 차지하도록 설정 */
     text-align: center;      /* 텍스트도 중앙 정렬 */
+    margin: 20px;
 }
 
-.contactHedding {
+.contact-hedding {
     margin: 0 0 10px 0;
+    color: black;
+    font-size: 3em;
 }
 
 .github {
     width: 50px; /* 적당한 크기로 설정 */
     height: auto;
     margin-top: 10px; /* 이미지와 텍스트 사이에 여백 추가 */
-}
-
-img {
-    max-width: 100%; /* 부모 요소의 너비를 넘지 않도록 설정 */
-    height: auto;    /* 비율 유지하면서 크기 조정 */
 }
